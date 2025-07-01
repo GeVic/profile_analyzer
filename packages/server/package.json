@@ -1,0 +1,49 @@
+{
+  "name": "@profile-analyzer/server",
+  "version": "1.0.0",
+  "description": "tRPC server for AI-powered CV analysis",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/trpc/router.d.ts",
+      "import": "./dist/trpc/router.js",
+      "require": "./dist/trpc/router.js"
+    }
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["trpc", "ai", "cv-analysis", "server"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@trpc/client": "^11.4.3",
+    "@trpc/server": "^11.4.3",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.13",
+    "@types/pdf-parse": "^1.1.5",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.0",
+    "express": "^4.19.2",
+    "multer": "^2.0.1",
+    "pdf-parse": "^1.1.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.25.67"
+  }
+}
