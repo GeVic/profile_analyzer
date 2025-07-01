@@ -26,8 +26,8 @@ app.use(
   }),
 );
 
-app.use(express.json({ limit: "50mb" })); // Increased limit for PDF files
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json({ limit: "10mb" })); // Limit for PDF files (matches validation)
+
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -65,10 +65,6 @@ app.get("/", (req, res) => {
         "profile.testAI": "GET /trpc/profile.testAI - Test AI connection",
         "profile.analyzeProfile":
           "POST /trpc/profile.analyzeProfile - Analyze CV against job description",
-        "profile.getPDFInfo":
-          "POST /trpc/profile.getPDFInfo - Get PDF metadata",
-        "profile.extractText":
-          "POST /trpc/profile.extractText - Extract text from PDF",
       },
     },
     documentation: {
@@ -122,8 +118,6 @@ app.use("*", (req, res) => {
       "POST /trpc/profile.analyzeProfile",
       "GET /trpc/profile.health",
       "GET /trpc/profile.testAI",
-      "POST /trpc/profile.getPDFInfo",
-      "POST /trpc/profile.extractText",
     ],
   });
 });
