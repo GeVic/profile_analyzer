@@ -52,18 +52,7 @@ export const profileRouter = router({
     }
   }),
 
-  // Debug endpoint to check environment variables
-  debug: publicProcedure.query(() => {
-    const token = process.env.GEMINI_AUTH_TOKEN;
-    return {
-      tokenExists: !!token,
-      tokenLength: token ? token.length : 0,
-      tokenIsPlaceholder: token === 'your_auth_token_here',
-      apiUrl: process.env.GEMINI_API_URL,
-      nodeEnv: process.env.NODE_ENV,
-      timestamp: new Date().toISOString(),
-    };
-  }),
+
 
   // Main analysis endpoint
   analyzeProfile: protectedProcedure
@@ -158,64 +147,5 @@ export const profileRouter = router({
       }
     }),
 
-  // Get PDF metadata (useful for debugging)
-  getPDFInfo: publicProcedure
-    .input(z.object({
-      data: z.string(),
-      name: z.string(),
-    }))
-    .query(async ({ input }) => {
-      try {
-        if (!PDFService.isValidPDF(input.data)) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'Invalid PDF file',
-          });
-        }
 
-        const metadata = await PDFService.getPDFMetadata(input.data);
-        return {
-          name: input.name,
-          valid: true,
-          ...metadata,
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: error instanceof Error ? error.message : 'Failed to process PDF',
-          cause: error,
-        });
-      }
-    }),
-
-  // Extract text from PDF (useful for testing)
-  extractText: publicProcedure
-    .input(z.object({
-      data: z.string(),
-      name: z.string(),
-    }))
-    .query(async ({ input }) => {
-      try {
-        if (!PDFService.isValidPDF(input.data)) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'Invalid PDF file',
-          });
-        }
-
-        const text = await PDFService.extractTextFromBase64(input.data);
-        return {
-          name: input.name,
-          textLength: text.length,
-          preview: text.substring(0, 500) + (text.length > 500 ? '...' : ''),
-          fullText: text,
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: error instanceof Error ? error.message : 'Failed to extract text',
-          cause: error,
-        });
-      }
-    }),
 });
